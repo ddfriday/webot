@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# AI 生成的临时说明文档（保留接口调用日志）
+插件安装指南.md
+数据查看指南.md
