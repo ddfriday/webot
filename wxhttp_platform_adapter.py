@@ -73,8 +73,8 @@ def _detect_image_ext(data: bytes) -> str:
 
 
 @register_platform_adapter(
-    "wechatpadpro",
-    "wxhttp 适配器 (基于 WeChatPadPro 协议)",
+    "webot",
+    "webot 微信适配器 (基于 wxhttp 协议)",
     default_config_tmpl={
         "base_url": "http://150.158.115.134:8057/api",
         "wxid": "",
@@ -305,10 +305,10 @@ class WxHttpPlatformAdapter(Platform):
 
     def meta(self) -> PlatformMetadata:
         return PlatformMetadata(
-            name="wechatpadpro",
-            description="wxhttp 适配器 (基于 WeChatPadPro 协议)",
-            id=self.config.get("id", "wechatpadpro"),
-            adapter_display_name="wechatpadpro",
+            name="webot",
+            description="webot 微信适配器 (基于 wxhttp 协议)",
+            id=self.config.get("id", "webot"),
+            adapter_display_name="webot",
             logo_path="logo.svg",
             support_streaming_message=False,
         )
