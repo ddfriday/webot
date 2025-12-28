@@ -769,6 +769,7 @@ class WxHttpPlatformAdapter(Platform):
                 # 如果 callback_api_base 未配置，则回退到本地路径（provider 会转 base64）
                 try:
                     public_url = await img.register_to_file_service()
+                    logger.info(f"[webot] 图片已生成公网链接: {public_url}")
                     # 改用 URL 形式的 Image 组件，智谱等 provider 可以直接使用
                     return Image.fromURL(public_url, path=file_path)
                 except Exception as url_err:

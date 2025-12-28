@@ -5,7 +5,7 @@ class WebotAdapterPlugin(Star):
     """webot 平台适配器 - 基于 wxhttp 协议的微信适配器
     
     作者: ddfriday
-    版本: 0.1.0
+    版本: 0.1.1
     """
     
     def __init__(self, context: Context):
