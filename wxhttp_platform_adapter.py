@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import base64
 import os
+import random
 import re
 import time
 from collections import deque
@@ -76,7 +77,7 @@ def _detect_image_ext(data: bytes) -> str:
     "webot",
     "webot 微信适配器 (基于 wxhttp 协议)",
     default_config_tmpl={
-        "base_url": "http://150.158.115.134:8057/api",
+        "base_url": "",
         "wxid": "",
         "poll_interval_sec": 1.5,
         "use_client_synckey": False,
@@ -89,6 +90,11 @@ def _detect_image_ext(data: bytes) -> str:
         "private_nickname_blacklist_regex": "",
         "group_nickname_blacklist_keywords": [],
         "group_nickname_blacklist_regex": "",
+
+        # 发送消息延时范围（秒）
+        # 格式："最小值,最大值"，例如 "3.5,6.5" 表示每条消息发送前随机延时 3.5-6.5 秒
+        # 留空或设为 "0,0" 则不延时
+        "send_delay_range": "",
     },
 )
 class WxHttpPlatformAdapter(Platform):
@@ -117,6 +123,24 @@ class WxHttpPlatformAdapter(Platform):
         self._enable_group_member_cache = bool(
             self.config.get("enable_group_member_cache", True)
         )
+
+        # 解析发送延时配置
+        self._send_delay_min = 0.0
+        self._send_delay_max = 0.0
+        delay_range = (self.config.get("send_delay_range") or "").strip()
+        if delay_range:
+            try:
+                parts = delay_range.split(",")
+                if len(parts) == 2:
+                    min_val = float(parts[0].strip())
+                    max_val = float(parts[1].strip())
+                    if min_val >= 0 and max_val >= min_val:
+                        self._send_delay_min = min_val
+                        self._send_delay_max = max_val
+                        logger.info(f"[webot] 消息发送延时: {self._send_delay_min}-{self._send_delay_max} 秒")
+            except Exception as e:
+                logger.warning(f"[webot] 解析 send_delay_range 失败: {e}")
+
         self._chatroom_member_cache_ttl_sec = float(
             self.config.get("chatroom_member_cache_ttl_sec", 600)
         )
@@ -316,6 +340,12 @@ class WxHttpPlatformAdapter(Platform):
     async def send_by_session(self, session: MessageSesion, message_chain: MessageChain):
         to_wxid = session.session_id
         for item in message_chain.chain:
+            # 发送消息前随机延时
+            if self._send_delay_max > 0:
+                delay = random.uniform(self._send_delay_min, self._send_delay_max)
+                logger.debug(f"[webot] 延时 {delay:.2f} 秒后发送消息")
+                await asyncio.sleep(delay)
+
             if isinstance(item, Plain) and item.text:
                 content = item.text
                 logger.info(f"[wxhttp] send_by_session(text) -> {to_wxid} (len={len(content)})")
@@ -360,6 +390,9 @@ class WxHttpPlatformAdapter(Platform):
                 synckey = self._synckey if self._use_client_synckey else ""
                 resp = await self._client.sync(wxid=self._self_wxid, scene=0, synckey=synckey)
 
+                # 请求成功，重置错误计数器
+                self._consecutive_errors = 0
+
                 data = resp.get("Data") or {}
                 keybuf = data.get("KeyBuf") or {}
                 if self._use_client_synckey:
@@ -375,7 +408,15 @@ class WxHttpPlatformAdapter(Platform):
                             continue
                         await self.handle_msg(abm)
             except Exception as e:
-                logger.exception(f"wxhttp polling error: {e}")
+                self._consecutive_errors += 1
+                logger.exception(f"[webot] 轮询异常 ({self._consecutive_errors}/{self._max_consecutive_errors}): {e}")
+                
+                if self._consecutive_errors >= self._max_consecutive_errors:
+                    logger.error(
+                        f"[webot] 连续 {self._max_consecutive_errors} 次轮询异常，插件终止运行。"
+                        f"请检查 wxhttp 服务是否正常运行，以及 base_url 配置是否正确。"
+                    )
+                    break
 
             await asyncio.sleep(self._poll_interval_sec)
 

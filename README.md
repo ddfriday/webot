@@ -1,4 +1,4 @@
-# WxHttp Adapter for AstrBot
+# Webot - 微信平台适配器
 
 基于 wxhttp 协议的 AstrBot 平台适配器，支持微信消息收发和多模态识图。
 
@@ -7,7 +7,7 @@
 ### 安装
 
 ```bash
-astrbot plugin install https://github.com/你的用户名/astrbot-wxhttp-adapter
+astrbot plugin install https://github.com/ddfriday/webot
 ```
 
 ### 配置
@@ -20,9 +20,10 @@ callback_api_base: "https://your-domain.com"
 
 # 平台配置
 platform_adapters:
-  - type: wechatpadpro
+  - type: webot
     base_url: "http://wxhttp-server:8057/api"
     wxid: "wxid_your_bot_id"
+    send_delay_range: "3.5,6.5"  # 可选：消息发送延时
 ```
 
 ## 功能特性
