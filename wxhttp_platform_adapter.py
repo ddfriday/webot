@@ -86,9 +86,9 @@ def _detect_image_ext(data: bytes) -> str:
         # - 私聊：默认屏蔽昵称包含“微信 / wx / wechat”的联系人
         # - 群聊：默认不启用（保持原有 @/主动触发逻辑）
         # 说明：keywords 为子串匹配（不区分大小写）；regex 为空则不启用。
-        "private_nickname_blacklist_keywords": ["微信", "wx", "wechat"],
+        "private_nickname_blacklist_keywords": "微信,wx,wechat",
         "private_nickname_blacklist_regex": "",
-        "group_nickname_blacklist_keywords": [],
+        "group_nickname_blacklist_keywords": "",
         "group_nickname_blacklist_regex": "",
 
         # 发送消息延时范围（秒）
@@ -167,10 +167,15 @@ class WxHttpPlatformAdapter(Platform):
 
     @staticmethod
     def _normalize_blacklist_keywords(value: Any) -> list[str]:
+        """解析黑名单关键词，支持字符串（逗号分隔）或列表格式"""
         if value is None:
             return []
         if isinstance(value, str):
-            value = [value]
+            # 支持逗号分隔的字符串，例如 "微信,wx,wechat"
+            if "," in value:
+                value = [kw.strip() for kw in value.split(",") if kw.strip()]
+            else:
+                value = [value.strip()] if value.strip() else []
         if not isinstance(value, list):
             return []
         out: list[str] = []

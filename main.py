@@ -13,7 +13,7 @@ class WebotAdapterPlugin(Star):
     ```yaml
     platform_adapters:
       - type: webot
-        base_url: "http://your-wxhttp-server:8057/api"
+        base_url: "http://your-wxhttp-server/api"
         wxid: "wxid_your_bot_id"
         send_delay_range: "3.5,6.5"  # 可选：消息发送延时
     ```
