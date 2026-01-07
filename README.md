@@ -67,7 +67,7 @@ git clone https://github.com/ddfriday/webot wxhttp_adapter
     max_consecutive_errors: 10             # 最大连续错误次数
 ```
 
-详细配置说明请参考 [CONFIG_GUIDE.md](CONFIG_GUIDE.md)
+详细配置说明请参考 [docs/CONFIG_GUIDE.md](docs/CONFIG_GUIDE.md)
 
 ## 🖼️ 智谱识图配置
 
@@ -128,11 +128,11 @@ providers:
 
 ## 📚 更多文档
 
-- [配置指南](CONFIG_GUIDE.md) - 详细的配置说明
-- [安装指南](INSTALL_GUIDE.md) - 安装方法和故障排除
-- [更新日志](CHANGELOG.md) - 版本更新记录
-- [事件分析](EVENT_ANALYSIS.md) - 事件类型对比分析
-- [版本管理](VERSION_MANAGEMENT.md) - 版本号统一管理说明
+- [配置指南](docs/CONFIG_GUIDE.md) - 详细的配置说明
+- [安装指南](docs/INSTALL_GUIDE.md) - 安装方法和故障排除
+- [更新日志](docs/CHANGELOG.md) - 版本更新记录
+- [事件分析](docs/EVENT_ANALYSIS.md) - 事件类型对比分析
+- [版本管理](docs/VERSION_MANAGEMENT.md) - 版本号统一管理说明
 
 ## License
 

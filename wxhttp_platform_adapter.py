@@ -25,11 +25,25 @@ from astrbot.core.utils.astrbot_path import get_astrbot_data_path
 from astrbot.core.utils.tencent_record_helper import audio_to_tencent_silk_base64
 
 from defusedxml import ElementTree as eT
+import yaml
 
-from .version import (__version__, __author__, __description__, 
-                      __repo__, ADAPTER_DISPLAY_NAME, LOGO_FILE)
 from .wxhttp_client import WxHttpClient
 from .wxhttp_event import WxHttpMessageEvent
+
+# 从 metadata.yaml 读取版本信息
+def _load_metadata():
+    """从 metadata.yaml 加载插件元数据"""
+    import os
+    metadata_path = os.path.join(os.path.dirname(__file__), "metadata.yaml")
+    try:
+        with open(metadata_path, "r", encoding="utf-8") as f:
+            return yaml.safe_load(f)
+    except Exception:
+        return {}
+
+_metadata = _load_metadata()
+ADAPTER_DISPLAY_NAME = "Webot 微信适配器（基于 wxhttp 协议）"
+LOGO_FILE = "logo.svg"
 
 
 def _safe_get(d: Dict[str, Any], *path: str) -> Any:
@@ -77,7 +91,7 @@ def _detect_image_ext(data: bytes) -> str:
 
 @register_platform_adapter(
     "wxhttp_webot",
-    "Webot 微信适配器 (基于 wxhttp 协议)",
+    "Webot 微信适配器（基于 wxhttp 协议）",
     default_config_tmpl={
         "base_url": "",
         "wxid": "",
@@ -89,14 +103,23 @@ def _detect_image_ext(data: bytes) -> str:
         # - 群聊：默认不启用（保持原有 @/主动触发逻辑）
         # 说明：keywords 为子串匹配（不区分大小写）；regex 为空则不启用。
         "private_nickname_blacklist_keywords": "微信,wx,wechat",
+        
+        # 私聊昵称黑名单（正则表达式）
+        # 例如 "^微信.*|.*官方.*"，留空则不使用正则匹配
         "private_nickname_blacklist_regex": "",
+        
+        # 群聊昵称黑名单（关键词）
+        # 默认不启用（保持原有 @/主动触发逻辑）
         "group_nickname_blacklist_keywords": "",
+        
+        # 群聊昵称黑名单（正则表达式）
+        # 留空则不使用
         "group_nickname_blacklist_regex": "",
 
-        # 发送消息延时范围（秒）
-        # 格式："最小值,最大值"，例如 "3.5,6.5" 表示每条消息发送前随机延时 3.5-6.5 秒
-        # 留空或设为 "0,0" 则不延时
-        "send_delay_range": "",
+        # 最大连续错误次数
+        # 连续轮询错误达到此次数后，适配器将自动停止运行（防止 wxhttp 服务异常时无限重试）
+        # 建议设置为 10-20
+        "max_consecutive_errors": 10,
     },
 )
 class WxHttpPlatformAdapter(Platform):
@@ -363,7 +386,7 @@ class WxHttpPlatformAdapter(Platform):
     def meta(self) -> PlatformMetadata:
         return PlatformMetadata(
             name="wxhttp_webot",
-            description=__description__,
+            description=_metadata.get("desc", "Webot 微信平台适配器"),
             id=self.config.get("id", "wxhttp_webot"),
             adapter_display_name=ADAPTER_DISPLAY_NAME,
             logo_path=LOGO_FILE,

@@ -1,7 +1,5 @@
 from astrbot.api.star import Context, Star
 
-from .version import __version__, __author__, __description__, __repo__
-
 
 class WebotAdapterPlugin(Star):
     """Webot 微信平台适配器

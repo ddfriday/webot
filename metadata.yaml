@@ -1,5 +1,15 @@
 # Webot 微信平台适配器元数据
 # 基于 wxhttp 协议的 AstrBot 平台适配器
+# 
+# 版本管理说明：
+# 修改此文件后，代码会自动读取最新的版本信息，无需手动同步
+#
+# 字段说明：
+# - name: 插件内部名称（不要修改）
+# - author: 作者名称
+# - version: 版本号（语义化版本：major.minor.patch）
+# - desc: 插件描述
+# - repo: 仓库地址
 
 name: wxhttp_adapter
 author: ddfriday
