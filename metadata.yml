@@ -1,5 +1,0 @@
-name: webot
-author: ddfriday
-version: 0.1.2
-desc: 基于 wxhttp 协议的微信平台适配器，支持消息收发和多模态功能
-repo: https://github.com/ddfriday/webot

@@ -26,6 +26,8 @@ from astrbot.core.utils.tencent_record_helper import audio_to_tencent_silk_base6
 
 from defusedxml import ElementTree as eT
 
+from .version import (__version__, __author__, __description__, 
+                      __repo__, ADAPTER_DISPLAY_NAME, LOGO_FILE)
 from .wxhttp_client import WxHttpClient
 from .wxhttp_event import WxHttpMessageEvent
 
@@ -361,10 +363,10 @@ class WxHttpPlatformAdapter(Platform):
     def meta(self) -> PlatformMetadata:
         return PlatformMetadata(
             name="webot",
-            description="webot 微信适配器 (基于 wxhttp 协议)",
+            description=__description__,
             id=self.config.get("id", "webot"),
-            adapter_display_name="webot",
-            logo_path="logo.svg",
+            adapter_display_name=ADAPTER_DISPLAY_NAME,
+            logo_path=LOGO_FILE,
             support_streaming_message=False,
         )
 

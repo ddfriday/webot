@@ -1,0 +1,71 @@
+{
+  "base_url": {
+    "description": "wxhttp 服务地址",
+    "type": "string",
+    "hint": "填写 wxhttp 服务的完整 API 地址，例如: http://localhost:8057/api 或 http://192.168.1.100:8057/api",
+    "obvious_hint": true,
+    "default": ""
+  },
+  "wxid": {
+    "description": "机器人微信 ID",
+    "type": "string",
+    "hint": "填写机器人的微信 ID，通常以 wxid_ 开头，例如: wxid_xxxxxxxxx。可在 wxhttp 日志或管理界面中查看",
+    "obvious_hint": true,
+    "default": ""
+  },
+  "poll_interval_sec": {
+    "description": "消息同步间隔（秒）",
+    "type": "float",
+    "hint": "控制消息同步轮询的频率，建议 1.0-2.0 秒。设置过小可能被限流，过大会导致消息延迟",
+    "default": 1.5
+  },
+  "use_client_synckey": {
+    "description": "使用客户端同步键",
+    "type": "bool",
+    "hint": "高级功能，一般情况下保持关闭即可",
+    "default": false,
+    "invisible": false
+  },
+  "api_request_delay_range": {
+    "description": "API 请求延时范围",
+    "type": "string",
+    "hint": "格式：\"最小值,最大值\"（秒），例如 \"0.5,2.0\" 表示每次 API 请求前随机延时 0.5-2.0 秒。用于防止请求过快触发风控。留空或 \"0,0\" 表示不延时。注意：消息同步接口不受此影响",
+    "default": ""
+  },
+  "send_delay_range": {
+    "description": "消息发送延时范围",
+    "type": "string",
+    "hint": "格式：\"最小值,最大值\"（秒），例如 \"3.5,6.5\" 表示发送每条消息前随机延时 3.5-6.5 秒。用于模拟真人回复速度，降低被识别为机器人的风险。留空或 \"0,0\" 表示不延时",
+    "default": ""
+  },
+  "private_nickname_blacklist_keywords": {
+    "description": "私聊昵称黑名单（关键词）",
+    "type": "string",
+    "hint": "逗号分隔的关键词列表，例如: \"微信,wx,wechat,官方,客服\"。匹配昵称包含这些关键词的私聊消息将被忽略，不区分大小写",
+    "default": "微信,wx,wechat"
+  },
+  "private_nickname_blacklist_regex": {
+    "description": "私聊昵称黑名单（正则表达式）",
+    "type": "string",
+    "hint": "正则表达式，用于更精确的昵称匹配。例如: \"^微信.*|.*官方.*\"。留空则不使用正则匹配",
+    "default": ""
+  },
+  "group_nickname_blacklist_keywords": {
+    "description": "群聊昵称黑名单（关键词）",
+    "type": "string",
+    "hint": "逗号分隔的关键词列表。匹配昵称包含这些关键词的群聊消息将被忽略。默认不启用（保持原有 @/主动触发逻辑）",
+    "default": ""
+  },
+  "group_nickname_blacklist_regex": {
+    "description": "群聊昵称黑名单（正则表达式）",
+    "type": "string",
+    "hint": "正则表达式，用于群聊昵称匹配。留空则不使用",
+    "default": ""
+  },
+  "max_consecutive_errors": {
+    "description": "最大连续错误次数",
+    "type": "int",
+    "hint": "当连续发生指定次数的轮询错误时，适配器将自动停止运行。这可以防止 wxhttp 服务异常时的无限重试。建议设置为 10-20",
+    "default": 10
+  }
+}

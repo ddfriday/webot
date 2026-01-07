@@ -1,0 +1,8 @@
+# 本文件的版本信息由 version.py 自动生成，请勿手动修改
+# 若需更新版本号，请修改 version.py 文件后运行 sync_version.py
+
+name: wxhttp_adapter
+author: ddfriday
+version: "0.1.3"
+desc: "基于 wxhttp 协议的微信平台适配器。支持消息收发、图片/语音/视频自动下载、智谱识图、黑名单过滤、消息延时等功能。"
+repo: "https://github.com/ddfriday/wxhttp_adapter"

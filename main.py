@@ -1,5 +1,7 @@
 from astrbot.api.star import Context, Star
 
+from .version import __version__, __author__, __description__, __repo__
+
 
 class WebotAdapterPlugin(Star):
     """Webot 微信平台适配器
@@ -23,7 +25,7 @@ class WebotAdapterPlugin(Star):
     - 支持私聊/群聊消息收发
     - 自动下载图片/语音/视频
     - 支持智谱等多模态大模型（自动生成图片公网 URL）
-    - 明称黑名单功能（防止骚扰）
+    - 昵称黑名单功能（防止骚扰）
     - 消息发送延时（模拟真人回复）
     
     ## 注意事项
@@ -33,9 +35,7 @@ class WebotAdapterPlugin(Star):
     
     ---
     
-    **作者:** ddfriday  
-    **版本:** 0.1.2  
-    **仓库:** https://github.com/ddfriday/webot
+    版本信息请参考 version.py
     """
     
     def __init__(self, context: Context):
