@@ -17,11 +17,11 @@ from version import __version__, __author__, __description__, __repo__
 
 
 def sync_metadata():
-    """同步版本信息到 metadata.yaml"""
+    """同步版本信息到 metadata.yaml（仓库根目录和插件目录）"""
     
     # metadata.yaml 内容模板
-    metadata_content = f"""# 本文件的版本信息由 version.py 自动生成，请勿手动修改
-# 若需更新版本号，请修改 version.py 文件后运行 sync_version.py
+    metadata_content = f"""# Webot 微信平台适配器元数据
+# 基于 wxhttp 协议的 AstrBot 平台适配器
 
 name: wxhttp_adapter
 author: {__author__}
@@ -30,14 +30,22 @@ desc: "{__description__}"
 repo: "{__repo__}"
 """
     
-    # 写入 metadata.yaml
     script_dir = Path(__file__).parent
-    metadata_file = script_dir / "metadata.yaml"
+    repo_root = script_dir.parent  # 仓库根目录
     
-    with open(metadata_file, "w", encoding="utf-8") as f:
+    # 1. 同步到仓库根目录的 metadata.yaml（AstrBot 加载插件时需要）
+    root_metadata = repo_root / "metadata.yaml"
+    with open(root_metadata, "w", encoding="utf-8") as f:
         f.write(metadata_content)
+    print(f"✅ 已同步版本信息到根目录: {root_metadata}")
     
-    print(f"✅ 已同步版本信息到 metadata.yaml")
+    # 2. 同步到插件目录的 metadata.yaml（备份，保持一致性）
+    plugin_metadata = script_dir / "metadata.yaml"
+    with open(plugin_metadata, "w", encoding="utf-8") as f:
+        f.write(metadata_content)
+    print(f"✅ 已同步版本信息到插件目录: {plugin_metadata}")
+    
+    print(f"\n📦 版本信息:")
     print(f"   版本: {__version__}")
     print(f"   作者: {__author__}")
     print(f"   仓库: {__repo__}")
