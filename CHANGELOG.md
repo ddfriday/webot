@@ -28,8 +28,8 @@
 ### 🔧 配置说明
 
 ```yaml
-platform_adapters:
-  - type: webot
+# 在 astrbot.yml 的 platform_adapters 中配置:
+  - type: wxhttp_webot
     base_url: "http://wxhttp-server:8057/api"
     wxid: "wxid_your_bot_id"
     

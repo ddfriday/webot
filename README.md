@@ -40,8 +40,8 @@ git clone https://github.com/ddfriday/webot wxhttp_adapter
 编辑 `data/config/astrbot.yml`：
 
 ```yaml
-platform_adapters:
-  - type: webot
+# 在 astrbot.yml 的 platform_adapters 中配置:
+  - type: wxhttp_webot
     base_url: "http://localhost:8057/api"  # wxhttp 服务地址
     wxid: "wxid_xxxxxxxxx"                 # 机器人微信ID
 ```
@@ -49,8 +49,8 @@ platform_adapters:
 ### 完整配置示例
 
 ```yaml
-platform_adapters:
-  - type: webot
+# 在 astrbot.yml 的 platform_adapters 中配置:
+  - type: wxhttp_webot
     # === 必填配置 ===
     base_url: "http://localhost:8057/api"
     wxid: "wxid_xxxxxxxxx"
@@ -78,8 +78,8 @@ platform_adapters:
 callback_api_base: "https://your-domain.com"
 
 # 平台配置
-platform_adapters:
-  - type: webot
+# 在 astrbot.yml 的 platform_adapters 中配置:
+  - type: wxhttp_webot
     base_url: "http://localhost:8057/api"
     wxid: "wxid_xxxxxxxxx"
 
@@ -102,7 +102,7 @@ providers:
 ### 昵称黑名单
 
 ```yaml
-platform_adapters:
+# 在 astrbot.yml 的 platform_adapters 中配置:
   - type: wechatpadpro
     # 私聊黑名单（可选）
     private_nickname_blacklist_keywords: ["微信", "wx"]

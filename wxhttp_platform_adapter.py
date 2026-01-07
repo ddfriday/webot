@@ -76,8 +76,8 @@ def _detect_image_ext(data: bytes) -> str:
 
 
 @register_platform_adapter(
-    "webot",
-    "webot 微信适配器 (基于 wxhttp 协议)",
+    "wxhttp_webot",
+    "Webot 微信适配器 (基于 wxhttp 协议)",
     default_config_tmpl={
         "base_url": "",
         "wxid": "",
@@ -362,9 +362,9 @@ class WxHttpPlatformAdapter(Platform):
 
     def meta(self) -> PlatformMetadata:
         return PlatformMetadata(
-            name="webot",
+            name="wxhttp_webot",
             description=__description__,
-            id=self.config.get("id", "webot"),
+            id=self.config.get("id", "wxhttp_webot"),
             adapter_display_name=ADAPTER_DISPLAY_NAME,
             logo_path=LOGO_FILE,
             support_streaming_message=False,

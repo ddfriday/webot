@@ -3,8 +3,8 @@
 ## 📝 完整配置示例
 
 ```yaml
-platform_adapters:
-  - type: webot
+# 在 astrbot.yml 的 platform_adapters 中配置:
+  - type: wxhttp_webot
     # === 必填配置 ===
     base_url: "http://localhost:8057/api"  # wxhttp 服务地址
     wxid: "wxid_xxxxxxxxx"                 # 机器人微信ID
@@ -108,16 +108,16 @@ private_nickname_blacklist_regex: "^微信.*|.*官方.*|.*客服$"
 
 ### 基础配置（最小化）
 ```yaml
-platform_adapters:
-  - type: webot
+# 在 astrbot.yml 的 platform_adapters 中配置:
+  - type: wxhttp_webot
     base_url: "http://localhost:8057/api"
     wxid: "wxid_xxxxxxxxx"
 ```
 
 ### 日常使用（推荐）
 ```yaml
-platform_adapters:
-  - type: webot
+# 在 astrbot.yml 的 platform_adapters 中配置:
+  - type: wxhttp_webot
     base_url: "http://localhost:8057/api"
     wxid: "wxid_xxxxxxxxx"
     api_request_delay_range: "0.5,2.0"
@@ -126,8 +126,8 @@ platform_adapters:
 
 ### 高频使用（快速响应）
 ```yaml
-platform_adapters:
-  - type: webot
+# 在 astrbot.yml 的 platform_adapters 中配置:
+  - type: wxhttp_webot
     base_url: "http://localhost:8057/api"
     wxid: "wxid_xxxxxxxxx"
     poll_interval_sec: 1.0
@@ -137,8 +137,8 @@ platform_adapters:
 
 ### 安全优先（降低风控风险）
 ```yaml
-platform_adapters:
-  - type: webot
+# 在 astrbot.yml 的 platform_adapters 中配置:
+  - type: wxhttp_webot
     base_url: "http://localhost:8057/api"
     wxid: "wxid_xxxxxxxxx"
     poll_interval_sec: 2.0

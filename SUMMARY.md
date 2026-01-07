@@ -144,16 +144,16 @@
 
 ### 基础配置（最小化）
 ```yaml
-platform_adapters:
-  - type: webot
+# 在 astrbot.yml 的 platform_adapters 中配置:
+  - type: wxhttp_webot
     base_url: "http://localhost:8057/api"
     wxid: "wxid_xxxxxxxxx"
 ```
 
 ### 推荐配置（日常使用）
 ```yaml
-platform_adapters:
-  - type: webot
+# 在 astrbot.yml 的 platform_adapters 中配置:
+  - type: wxhttp_webot
     base_url: "http://localhost:8057/api"
     wxid: "wxid_xxxxxxxxx"
     api_request_delay_range: "0.5,2.0"
@@ -162,8 +162,8 @@ platform_adapters:
 
 ### 安全优先配置
 ```yaml
-platform_adapters:
-  - type: webot
+# 在 astrbot.yml 的 platform_adapters 中配置:
+  - type: wxhttp_webot
     base_url: "http://localhost:8057/api"
     wxid: "wxid_xxxxxxxxx"
     poll_interval_sec: 2.0

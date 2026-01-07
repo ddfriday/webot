@@ -64,8 +64,8 @@ git clone https://github.com/ddfriday/webot wxhttp_adapter
 打开 `data/config/astrbot.yml`，添加或修改以下内容：
 
 ```yaml
-platform_adapters:
-  - type: webot
+# 在 astrbot.yml 的 platform_adapters 中配置:
+  - type: wxhttp_webot
     base_url: "http://localhost:8057/api"  # 替换为你的 wxhttp 服务地址
     wxid: "wxid_xxxxxxxxx"                 # 替换为你的微信ID
 ```
@@ -75,8 +75,8 @@ platform_adapters:
 根据需要添加以下配置：
 
 ```yaml
-platform_adapters:
-  - type: webot
+# 在 astrbot.yml 的 platform_adapters 中配置:
+  - type: wxhttp_webot
     base_url: "http://localhost:8057/api"
     wxid: "wxid_xxxxxxxxx"
     
