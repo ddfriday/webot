@@ -10,9 +10,11 @@
 # - version: 版本号（语义化版本：major.minor.patch）
 # - desc: 插件描述
 # - repo: 仓库地址
+# - branch: 默认分支（用于更新检测）
 
 name: wxhttp_adapter
 author: ddfriday
 version: "0.1.4"
 desc: "基于 wxhttp 协议的微信平台适配器。支持消息收发、图片/语音/视频自动下载、智谱识图、黑名单过滤、消息延时等功能。"
 repo: "https://github.com/ddfriday/webot"
+branch: "main"
