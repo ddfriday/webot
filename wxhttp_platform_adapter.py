@@ -110,7 +110,29 @@ class WxHttpPlatformAdapter(Platform):
             raise ValueError("wxhttp.wxid is required")
 
         self._self_wxid = self_wxid
-        self._client = WxHttpClient(base_url=base_url)
+        
+        # 解析 API 请求延时配置
+        api_delay_min = 0.0
+        api_delay_max = 0.0
+        api_delay_range = (self.config.get("api_request_delay_range") or "").strip()
+        if api_delay_range:
+            try:
+                parts = api_delay_range.split(",")
+                if len(parts) == 2:
+                    min_val = float(parts[0].strip())
+                    max_val = float(parts[1].strip())
+                    if min_val >= 0 and max_val >= min_val:
+                        api_delay_min = min_val
+                        api_delay_max = max_val
+                        logger.info(f"[webot] API 请求延时: {api_delay_min}-{api_delay_max} 秒")
+            except Exception as e:
+                logger.warning(f"[webot] 解析 api_request_delay_range 失败: {e}")
+        
+        self._client = WxHttpClient(
+            base_url=base_url,
+            request_delay_min=api_delay_min,
+            request_delay_max=api_delay_max,
+        )
 
         self._poll_interval_sec = float(self.config.get("poll_interval_sec", 1.5))
         self._use_client_synckey = bool(self.config.get("use_client_synckey", False))
@@ -164,6 +186,10 @@ class WxHttpPlatformAdapter(Platform):
 
         self._seen_ids: Set[int] = set()
         self._seen_order: Deque[int] = deque(maxlen=3000)
+        
+        # 连续错误计数器（用于检测 wxhttp 服务是否异常）
+        self._consecutive_errors = 0
+        self._max_consecutive_errors = int(self.config.get("max_consecutive_errors", 10))
 
     @staticmethod
     def _normalize_blacklist_keywords(value: Any) -> list[str]:
